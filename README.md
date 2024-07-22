@@ -87,6 +87,4 @@ The lowres-aqua mixed models were trained and tuned to predict weighted raw outp
 
 The best individual model was a Low-Res-High-Res-Mixed model that achieved a public LB score of 0.78553. The best Low-Res-Aqua-Mixed model was not too different, with an LB public score of 0.78457.
 
-The optimal weighting for the final ensemble was determined experimentally building on the intuition that the Low-Res-High-Res-Mixed model performed slightly better, and therefore received slightly larger weights. 
-
-The scripts used for performing the final inferencing/ensembling can be found [here](doithere), leading to a public LB score of 0.79071.
+The optimal weighting for the final ensemble was determined experimentally building on the intuition that the Low-Res-High-Res-Mixed model performed slightly better, and therefore received slightly larger weights. Predictions from models and ensembles from various stages of development were included in the final ensemble. Prior to submitting the final ensemble, an additional postprocessing step was applied to variables q0001, q0002, and q0003 whereby the maximum between the corresponding ptend value and -state/1200 is chosen. The scripts used for performing the final inferencing/ensembling can be found [here](https://www.kaggle.com/code/ajobseeker/final/notebook), leading to a public LB score of 0.79071.
