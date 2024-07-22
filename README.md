@@ -19,18 +19,7 @@ Our training strategy involved using as much data as possible initially, followe
 
 ### Shared Model Features
 
-All our models treat the inputs and outputs in the same manner.
-
-**Input:**
-- 556 elements total
-  - 540 elements are 1D data with a length of 60
-  - 16 elements are global values
-- Reshaped to 60x25, where:
-  - First 60x9 columns correspond to the 1D data
-  - Last 60x16 columns contain constant repeating values for each global value
-- Additional features, described in the individual model sections, are added as additional columns
-
-The 368 output elements are predicted directly as a 368 output vector to our models.
+All our models treat the inputs and outputs in the same manner. The 556 element inputs were separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs were then repeated 60 times and concatenated to the columns to form a (60x25) input to our models. Engineered features, described in the individual model sections, are added as additional columns. The 368 output elements are predicted directly as a 368 output vector to our models.
 
 ### Low-Res-Aqua-Mixed
 
@@ -65,14 +54,18 @@ We universally found that training using a Huber loss function with \(\delta = 1
 
 ### Low-Res-Aqua-Mixed Pipeline
 
-The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. 
+The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets.
 
 When training our models, the following steps were taken: 
 1. **Downloading the data**: Load the raw .parquet files from uploaded Kaggle datasets.
-2. **Process Batches**: Read in each file and output batch sizes of 1024 as torch.float64 files. 
-3. **Standardization**: Discuss standardization
+2. **Process Batches**: Read in each file and output batch sizes of 1024 as torch.float64 files.
+
+Trained with a batch size of 4-5x1024. 
+
+4. **Standardization**: Discuss standardization
 
 For more details, refer to the ./preprocessing folder.
+
 
 ### Low-Res-High-Res-Mixed Pipeline
 
