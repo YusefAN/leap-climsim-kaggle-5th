@@ -4,7 +4,7 @@ This repo contains the full solution used for the LEAP - Atmospheric Physics usi
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Shared Model Features](#sharedmodelfeatures)
+- [Shared Model Features](#shared-model-features)
 - [Low-Res-Aqua-Mixed](#Low-Res-Aqua-Mixed)
 - [Low-Res-High-Res-Mixed](#Low-Res-High-Res-Mixed)
 
