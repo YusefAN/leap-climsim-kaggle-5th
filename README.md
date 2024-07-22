@@ -23,15 +23,15 @@ All our models treat the inputs and outputs in the same manner. The 556 element 
 
 ### Low-Res-Aqua-Mixed
 
-The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following architecture:
+The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following simple architecture:
 
 **Architecture:**
 - MLP encoder-decoder on the input, outputting a 60x25 matrix which is concatenated to the input
-- The 60x50 input is fed into a wide (hidden dimension of 512) but shallow (3 layers deep) bidirectional LSTM 
+- The concatenated input is fed into a wide (hidden dimension of 512) but shallow (3 layers deep) bidirectional LSTM 
 - The output is fed into a single bidirectional GRU layer
 - Final linear layer to produce the 368-element output sequence
 
-Several models in our final ensemble followed this procedure without any additional feature engineering. Others included various mixes, which can be found in our code (in this appropriately named folder), of:
+Several models in our final ensemble followed this procedure without additional feature engineering. Others included various mixes, which can be found in our code (in this appropriately named folder), of:
 1. One feature
 2. Two feature
 3. Three feature
@@ -50,21 +50,26 @@ The models trained on the combination of the [ClimSim_low-res](https://huggingfa
 
 ## Data Processing and Training 
 
-We universally found that training using a Huber loss function with \(\delta = 1\) significantly improve the model's performance.
+We universally found that training using a Huber loss function with \(\delta = 1\) significantly improves the model's performance.
 
 ### Low-Res-Aqua-Mixed Pipeline
 
-The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets.
+#### Preprocessing
+The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. For more details, refer to the ./preprocessing folder.
+
+#### Training 
 
 When training our models, the following steps were taken: 
 1. **Downloading the data**: Load the raw .parquet files from uploaded Kaggle datasets.
-2. **Process Batches**: Read in each file and output batch sizes of 1024 as torch.float64 files.
+2. **Process Batches**: Read in each file and output batch sizes of 1000 as torch.float64 files.
 
 Trained with a batch size of 4-5x1024. 
 
+For more details, refer to the .training/low-res-aqua-mixed folder.
+
 4. **Standardization**: Discuss standardization
 
-For more details, refer to the ./preprocessing folder.
+
 
 
 ### Low-Res-High-Res-Mixed Pipeline
@@ -75,7 +80,7 @@ For more details, refer to the ./preprocessing folder.
 
 ### Low-Res-Aqua-Mixed 
 
-The lowres-aqua mixed models were trained and tuned to predict weighted raw outputs. Model files were uploaded to Kaggle and inference was made directly on the test.csv dataset. An example inference script can be found at [./inference](./inference).
+The lowres-aqua mixed models were trained and tuned to predict weighted raw outputs. Model files were uploaded to Kaggle and inference was made directly on the test.csv dataset. An example inference script can be found at [./inference/low-res-aqua-mixed](./inference/low-res-aqua-mixed).
 
 ### Low-Res-High-Res-Mixed
 
