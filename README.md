@@ -74,7 +74,7 @@ To reduce training time of multiple models, trained a single model on low_res + 
 
 @TODO 
 
-EMA equipped
+EMA equipped with a beta value of 0.99. 
 
 ## Inferencing 
 
