@@ -83,8 +83,8 @@ The lowres-aqua mixed models were trained and tuned to predict weighted raw outp
 
 ### Ensemble Inferencing
 
-Weights were determined experimentally. 
+The best individual model was a Low-Res-High-Res-Mixed model that achieved a public LB score of 0.78553. The best Low-Res-Aqua-Mixed model was not too different, with an LB public score of 0.78457.
 
-Best individual model had an LB public score of 0.785 blah blah with Low-Res-High-Res-Mixed model. Equal ensembles of models trained with Low-Res-High-Res-Mixed had a LB score of blah.
+The optimal weighting for the final ensemble was determined experimentally building on the intuition that the Low-Res-High-Res-Mixed model performed slightly better, and therefore received slightly larger weights. 
 
-Ensembling with Low-Res-Aqua-Mixed models with to a LB score of blah blah. 
+The scripts used for performing the final inferencing/ensembling can be found [here](doithere), leading to a public LB score of 0.79071.
