@@ -4,9 +4,9 @@ This repo contains the full solution used for the LEAP - Atmospheric Physics usi
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Shared Model Features](#shared-model-features)
-- [Low-Res-Aqua-Mixed](#Low-Res-Aqua-Mixed)
-- [Low-Res-High-Res-Mixed](#Low-Res-High-Res-Mixed)
+- [Models](#models)
+- [Data Processing and Training](#Data-Processing-and-Training)
+- [Inferencing](#inferencing)
 
 ## Introduction
 This repository provides the code and resources for the 5th place solution for the LEAP - Atmospheric Physics using AI competition.
@@ -15,7 +15,9 @@ We achieved our results by training an ensemble of models, each with its own uni
 
 Our training strategy involved using as much data as possible initially, followed by fine-tuning on the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset. Some models were initially trained on the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) dataset, while others used the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with a subset of [ClimSim_high-res](https://huggingface.co/datasets/LEAP/ClimSim_high-res) data.
 
-## Shared Model Features
+## Models
+
+### Shared Model Features
 
 All our models treat the inputs and outputs in the same manner.
 
@@ -28,17 +30,9 @@ All our models treat the inputs and outputs in the same manner.
   - Last 60x16 columns contain constant repeating values for each global value
 - Additional features, described in the individual model sections, are added as additional columns
 
-**Output:**  
-- 368 elements total
-  - 360 elements are 1D data with a length of 60
-  - 8 elements are global values
-- Output sequence is predicted directly as a 368x1 vector
+The 368 output elements are predicted directly as a 368 output vector to our models.
 
-We universally found that training using a Huber loss function with \(\delta = 1\) significantly improve the model's performance.
-
-## Low-Res-Aqua-Mixed
-
-### Model
+### Low-Res-Aqua-Mixed
 
 The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following architecture:
 
@@ -55,7 +49,21 @@ Several models in our final ensemble followed this procedure without any additio
 
 @TODO get feature engineering list
 
-### Pipeline
+### Low-Res-High-Res-Mixed
+
+The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following architecture:
+
+**Architecture:**
+@TODO ekffar model
+
+@TODO ekffar features
+
+
+## Data Processing and Training 
+
+We universally found that training using a Huber loss function with \(\delta = 1\) significantly improve the model's performance.
+
+### Low-Res-Aqua-Mixed Pipeline
 
 The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. 
 
@@ -66,22 +74,24 @@ When training our models, the following steps were taken:
 
 For more details, refer to the ./preprocessing folder.
 
-### Inference
+### Low-Res-High-Res-Mixed Pipeline
 
-The lowres-aqua mixed models were trained and tuned to predict weighted raw outputs. Model files were uploaded to Kaggle and inference was made directly on the test.csv dataset. Example inference script can be found at [./inference](./inference).
+@TODO 
 
-## Low-Res-High-Res-Mixed
+## Inferencing 
 
-### Model
-The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following architecture:
+### Low-Res-Aqua-Mixed 
 
-**Architecture:**
-@TODO ekffar model
+The lowres-aqua mixed models were trained and tuned to predict weighted raw outputs. Model files were uploaded to Kaggle and inference was made directly on the test.csv dataset. An example inference script can be found at [./inference](./inference).
 
-@TODO ekffar features
+### Low-Res-High-Res-Mixed
 
-### Pipeline
+@TODO 
 
-### Inference
+### Ensemble Inferencing
 
-@TODO ekffar inference
+Weights were determined experimentally. 
+
+Best individual model had an LB public score of 0.785 blah blah with Low-Res-High-Res-Mixed model. Equal ensembles of models trained with Low-Res-High-Res-Mixed had a LB score of blah.
+
+Ensembling with Low-Res-Aqua-Mixed models with to a LB score of blah blah. 
