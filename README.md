@@ -19,7 +19,7 @@ Our training strategy involved using as much data as possible initially, followe
 
 ### Shared Model Features
 
-All our models treat the inputs and outputs in the same manner. The 556 element inputs were separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs were then repeated 60 times and concatenated to the columns to form a (60x25) input to our models. Engineered features, described in the individual model sections, are added as additional columns. The 368 output elements are predicted directly as a 368 output vector to our models.
+All our models treat the inputs and outputs in the same manner. The 556 element inputs were separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs were then repeated 60 times and concatenated to the columns to form a (60x25) input to our models. Engineered features, described in the individual model sections, are added as additional columns. The 368 outputs are predicted directly as a 368-element long output vector to our models.
 
 ### Low-Res-Aqua-Mixed
 
