@@ -11,7 +11,7 @@ This repo contains the full solution used for the LEAP - Atmospheric Physics usi
 ## Introduction
 This repository provides the code and resources for the 5th place solution for the LEAP - Atmospheric Physics using AI competition.
 
-We achieved our results by training an ensemble of models, each with its own unique variations and pipelines. The core of each model architecture is a bidirectional LSTM, with different surrounding layers and engineered features. These variations, detailed below, enabled our models to ensemble effectively, leading to our competitive score and 5th-place finish.
+We achieved our results by training an ensemble of models, each with its own unique variations. The core of each model architecture is a bidirectional LSTM, with different surrounding layers and engineered features. These variations, detailed below, enabled our models to ensemble effectively, leading to our competitive score and 5th-place finish.
 
 Our training strategy involved using as much data as possible initially, followed by fine-tuning on the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset. Some models were initially trained on the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) dataset, while others used the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with a subset of [ClimSim_high-res](https://huggingface.co/datasets/LEAP/ClimSim_high-res) data.
 
