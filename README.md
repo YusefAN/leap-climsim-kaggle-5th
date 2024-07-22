@@ -24,8 +24,6 @@ All our models treat the inputs and outputs in the same manner. The 556 element 
 ### Low-Res-Aqua-Mixed
 
 The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following simple architecture:
-
-**Architecture:**
 - MLP encoder-decoder on the input, outputting a 60x25 matrix which is concatenated to the input
 - The concatenated input is fed into a wide (hidden dimension of 512) but shallow (3 layers deep) bidirectional LSTM 
 - The output is fed into a single bidirectional GRU layer
@@ -42,7 +40,6 @@ Several models in our final ensemble followed this procedure without additional 
 
 The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following architecture:
 
-**Architecture:**
 @TODO ekffar model
 
 @TODO ekffar features
