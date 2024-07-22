@@ -38,7 +38,8 @@ We universally found that training using a Huber loss function with \(\delta = 1
 
 ## Low-Res-Aqua-Mixed
 
-###Model 
+### Model
+
 The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following architecture:
 
 **Architecture:**
