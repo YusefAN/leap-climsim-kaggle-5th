@@ -60,18 +60,21 @@ When training our models, the following steps were taken:
 1. **Downloading the data**: Load the raw .parquet files from uploaded Kaggle datasets.
 2. **Process Batches**: Read in each file and output batch sizes of 1000 as torch.float64 files.
 
-Trained with a batch size of 4-5x1024. 
+Trained with a batch size of 4-5x1000. 
 
 For more details, refer to the .training/low-res-aqua-mixed folder.
 
 4. **Standardization**: Discuss standardization
 
+Trained using a multistep LR scheduler with gamma = 0.65. 
 
-
+To reduce training time of multiple models, trained a single model on low_res + aqua dataset. Then, finetuned that model with difference SWA and checkpoint averaging parameters to create distinct finetuned models that could ensemble effectively.
 
 ### Low-Res-High-Res-Mixed Pipeline
 
 @TODO 
+
+EMA equipped
 
 ## Inferencing 
 
