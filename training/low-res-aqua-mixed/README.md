@@ -1,3 +1,5 @@
 # Low-Res-Aqua-Mixed Training
 
-Describe training here. 
+Run "base_model.py" to train a model on the low_res data combined with the aqua data. Batch size of 4000 (remembering that for Low-Res-Aqua-Mixed model, the data is preprocessed into files each containing 1000 points. So, when the data loader has a batch size of 4, that corresponds to 4 files and 4000 points)
+
+Then, run "lowres_tune_1.py", "lowres_tune_2.py", and "lowres_tune_3.py" to train three distinct models fine-tuned on only the low-res data. The code in the lowres_tune files is mostly identical to the base_model.py file. There are only two changes worth mentioning. First, the data loaded for training is limited to the low-res data. Second, the trainer is modified slightly from one to the next, such that the final models generated are distinct. The first trains with the exact same . The second starts Stochastic Weight Averaging with a learning rate of 1e-4 at epoch 13. The third starts Stochastic Weight Averaging with a learning rate of 1e-4 at epoch 15. This procedure was found to yield models that ensemble effectively. 
