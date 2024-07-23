@@ -30,11 +30,15 @@ The models trained on the combination of the [ClimSim_low-res](https://huggingfa
 - Final linear layer to produce the 368-element output sequence
 
 Several models in our final ensemble followed this procedure without additional feature engineering. Others included various mixes, which can be found in our code (in this appropriately named folder), of:
-1. One feature
-2. Two feature
-3. Three feature
-
-@TODO get feature engineering list
+1. liq_partition STATE_Q0002 / (STATE_Q0002 + STATE_Q0003)
+2. imbalance (STATE_Q0002 - STATE_Q0003) / (STATE_Q0002_IDX + STATE_Q0003)
+3. moisture = (STATE_Q0001) * (STATE_U)**2 + (STATE_V)**2)
+4. air_total = PBUF_OZONE + PBUF_CH4 + PBUF_N2O
+5. temp_humid = STATE_T / STATE_Q0001
+6. temp_diff1 = STATE_T_IDX - STATE_T_IDX_2
+7. temp_diff2 = STATE_Q0001_IDX] - STATE_Q0001_IDX_2
+8. wind_diff1 = STATE_U_IDX - STATE_U_IDX_2
+9. wind_diff2 = STATE_V_IDX - STATE_V_IDX_2
 
 ### Low-Res-High-Res-Mixed
 
