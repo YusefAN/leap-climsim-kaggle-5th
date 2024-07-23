@@ -36,7 +36,7 @@ Several models in our final ensemble followed this procedure without additional 
 4. air_total = PBUF_OZONE + PBUF_CH4 + PBUF_N2O
 5. temp_humid = STATE_T / STATE_Q0001
 6. temp_diff1 = STATE_T_IDX - STATE_T_IDX_2
-7. temp_diff2 = STATE_Q0001_IDX] - STATE_Q0001_IDX_2
+7. temp_diff2 = STATE_Q0001_IDX - STATE_Q0001_IDX_2
 8. wind_diff1 = STATE_U_IDX - STATE_U_IDX_2
 9. wind_diff2 = STATE_V_IDX - STATE_V_IDX_2
 
