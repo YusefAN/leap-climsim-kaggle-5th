@@ -35,10 +35,10 @@ Several models in our final ensemble followed this procedure without additional 
 3. moisture = (STATE_Q0001) * (STATE_U)**2 + (STATE_V)**2)
 4. air_total = PBUF_OZONE + PBUF_CH4 + PBUF_N2O
 5. temp_humid = STATE_T / STATE_Q0001
-6. temp_diff1 = STATE_T_IDX - STATE_T_IDX_2
-7. temp_diff2 = STATE_Q0001_IDX - STATE_Q0001_IDX_2
-8. wind_diff1 = STATE_U_IDX - STATE_U_IDX_2
-9. wind_diff2 = STATE_V_IDX - STATE_V_IDX_2
+6. temp_diff1 = STATE_T_{i} - STATE_T_IDX_{i+1}
+7. temp_diff2 = STATE_Q0001_{i} - STATE_Q0001_IDX_{i+1}
+8. wind_diff1 = STATE_U_{i} - STATE_U_{i+1}
+9. wind_diff2 = STATE_V_{i} - STATE_V_{i+1}
 
 ### Low-Res-High-Res-Mixed
 
