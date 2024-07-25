@@ -27,7 +27,9 @@ The models trained on the combination of the [ClimSim_low-res](https://huggingfa
 - MLP encoder-decoder on the input, outputting a 60x25 matrix which is concatenated to the input
 - The concatenated input is fed into a wide (hidden dimension of 512) but shallow (3 layers deep) bidirectional LSTM 
 - The output is fed into a single bidirectional GRU layer
-- Final linear layer to produce the 368-element output sequence
+- Final MLP encoder to produce the 368-element output sequence
+
+![alt text](https://github.com/YusefAN/leap_climsim_kaggle_5th/LowResAquaArchitecture.jpg?raw=true)
 
 Several models in our final ensemble followed this procedure without additional feature engineering. Others included various mixes, which can be found in our code (in this appropriately named folder), of:
 1. liq_partition STATE_Q0002 / (STATE_Q0002 + STATE_Q0003)
