@@ -29,7 +29,7 @@ The models trained on the combination of the [ClimSim_low-res](https://huggingfa
 - The output is fed into a single bidirectional GRU layer
 - Final MLP encoder to produce the 368-element output sequence
 
-![alt text](https://github.com/YusefAN/leap_climsim_kaggle_5th/LowResAquaArchitecture.jpg?raw=true)
+![alt text](LowResAquaArchitecture.jpg)
 
 Several models in our final ensemble followed this procedure without additional feature engineering. Others included various mixes, which can be found in our code (in this appropriately named folder), of:
 1. liq_partition STATE_Q0002 / (STATE_Q0002 + STATE_Q0003)
