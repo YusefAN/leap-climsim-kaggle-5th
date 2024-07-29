@@ -13,13 +13,23 @@ This repository provides the code and resources for the 5th place solution for t
 
 We achieved our results by training an ensemble of models, each with its own unique variations. The core of each model architecture is a bidirectional LSTM, with different surrounding layers and engineered features. These variations, detailed below, enabled our models to ensemble effectively, leading to our competitive score and 5th-place finish.
 
-Our training strategy involved using as much data as possible initially, followed by fine-tuning on the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset. Some models were initially trained on the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) dataset, while others used the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with a subset of [ClimSim_high-res](https://huggingface.co/datasets/LEAP/ClimSim_high-res) data.
+Our training strategy involved using as much data as possible. Some models were trained on the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) dataset, while others used the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) dataset combined with a subset of [ClimSim_high-res](https://huggingface.co/datasets/LEAP/ClimSim_high-res) data.
+
+## Preprocessing
+
+### Low-Res-Aqua-Mixed
+
+The 556 element inputs were separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs were then repeated 60 times and concatenated to the columns to form a (60x25) input to our models. Engineered features, described in the individual model sections, are added as additional columns. All inputs and outputs, including engineered features, were standardized using their mean and standard deviation without any additional transformations.
+
+The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the script provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. The full low-res and aqua-planet datasets were used. The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. For more details, refer to the ./preprocessing folder.
+
+### Low-Res-High-Res-Mixed 
+
+As for the previous model, the 556 element inputs are separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs are repeated 60 times and concatenated to the columns to form a (60x25) input. These models did not use any engineered features. The inputs 'state-\_q0001', 'state\_q0002', 'state\_q0003', 'pbuf\_ozone', 'pbuf\_CH4', 'pbuf\_N2O' were log-transformed. Then, all the inputs (both transformed and not) were standardized using their mean and standard deviation. \\
+
+The preprocessed normalized data is then saved into hickle files which are later used for training. The models are trained using all the low-res data and about 1/15th of the high-res data. \\
 
 ## Models
-
-### Shared Model Features
-
-All our models treat the inputs and outputs in the same manner. The 556 element inputs were separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs were then repeated 60 times and concatenated to the columns to form a (60x25) input to our models. Engineered features, described in the individual model sections, are added as additional columns. The 368 outputs are predicted directly as a 368-element long output vector to our models.
 
 ### Low-Res-Aqua-Mixed
 
@@ -44,42 +54,35 @@ Several models in our final ensemble followed this procedure without additional 
 
 ### Low-Res-High-Res-Mixed
 
-The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_high-res](https://huggingface.co/datasets/LEAP/ClimSim_high-res) datasets had the following architecture:
+The 3 best-performing models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_high-res](https://huggingface.co/datasets/LEAP/ClimSim_high-res) datasets were all bidirectional LSTMs with outfitted with various FFNNs. They all shared the following features:
+
+\begin{enumerate}
+    \item Linear layer expanding the input dimension
+    \item Bidirectional LSTM (6 layer deep) with hidden dimension ranging from 256 to 320
+    \item The LSTM output is put into an 1D average pooling layer and a mean layer (along the dimension with length 60, which is the repeated 60 times)
+    \item The original input, the LSTM output, 1D average pooling output, and the mean are all concatenated
+    \item A series of linear layers then produce the final 368-element output sequence
+\end{enumerate}
+
+For 2 out of 3 of the models, an additional linear layer (not pictured in the diagram) with a softmax activation is used to compute an "attention" for computing the $8\times 1$ flattened output.
 
 ![alt text](LowResHighResArchitecture.jpg)
 
-@TODO TEXT DESCRIPTION
+## Training 
 
-## Data Processing and Training 
+### Low-Res-Aqua-Mixed
 
-We universally found that training using a Huber loss function with \(\delta = 1\) significantly improves the model's performance.
+When training the model, the raw .parquet files from uploaded Kaggle datasets are re-saved as files each with 1000 data points. The number of files used in a single batch can then easily be varied. Typically, our batch sizes were 4-5 files or 4000-5000 data points. We found that training using a Huber loss function with $\delta = 1$ noticeably improves the model's performance.\\
 
-### Low-Res-Aqua-Mixed Pipeline
-
-#### Preprocessing
-The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. For more details, refer to the ./preprocessing folder.
-
-#### Training 
-
-When training our models, the following steps were taken: 
-1. **Downloading the data**: Load the raw .parquet files from uploaded Kaggle datasets.
-2. **Process Batches**: Read in each file and output batch sizes of 1000 as torch.float64 files.
-
-Trained with a batch size of 4-5x1000. 
+A single model is trained on the mixed low-res and aqua-planet data to completion. Then, the same model is fine-tuned using slightly different procedures (varying SWA and checkpoint averaging parameters) to create distinct models that ensemble effectively. Training to completion takes approximately 24 hours on a single 4090 GPU.
 
 For more details, refer to the .training/low-res-aqua-mixed folder.
 
-4. **Standardization**: Discuss standardization
+### Low-Res-High-Res-Mixed
 
-Trained using a multistep LR scheduler with gamma = 0.65. 
+For each step during training, a batch of low-res data and a batch of high-res data are evaluated using the model. The loss function for the step is a weighted combination of the loss on the low-res data and the high-res data. The loss functions used are a combination of MSE and MAE loss functions. About 72\% of the total loss weight is placed on the MAE of the low-res data, 6\% on the MSE of the low-res data, 22\% on the MAE of the high-res data, and $<1\%$ on the MSE of the high-res data. \\
 
-To reduce training time of multiple models, trained a single model on low_res + aqua dataset. Then, finetuned that model with difference SWA and checkpoint averaging parameters to create distinct finetuned models that could ensemble effectively.
-
-### Low-Res-High-Res-Mixed Pipeline
-
-@TODO 
-
-EMA equipped with a beta value of 0.99. 
+The best-performing models were equipped with EMA and trained with a batch size of about 7000 data points. Training takes about 12 hours when trained locally on a computer with 6 RTX 4090 GPUs. \\
 
 ## Inferencing 
 
@@ -91,8 +94,8 @@ The lowres-aqua mixed models were trained and tuned to predict weighted raw outp
 
 @TODO 
 
-### Ensemble Inferencing
+## Ensemble Inferencing
 
 The best individual model was a Low-Res-High-Res-Mixed model that achieved a public LB score of 0.78553. The best Low-Res-Aqua-Mixed model was not too different, with an LB public score of 0.78457.
 
-The optimal weighting for the final ensemble was determined experimentally building on the intuition that the Low-Res-High-Res-Mixed model performed slightly better, and therefore received slightly larger weights. Predictions from models and ensembles from various stages of development were included in the final ensemble. Prior to submitting the final ensemble, an additional postprocessing step was applied to variables q0001, q0002, and q0003 whereby the maximum between the pretdicted ptend value and -state/1200 is chosen. The scripts used for performing the final inferencing/ensembling can be found [here](https://www.kaggle.com/code/ajobseeker/final/notebook), leading to a public LB score of 0.79071.
+The optimal weighting for the final ensemble was determined experimentally building on the intuition that the Low-Res-High-Res-Mixed model performed slightly better, and therefore received slightly larger weights. Predictions from models and ensembles from various stages of development were included in the final ensemble. Prior to submitting the final ensemble, an additional postprocessing step was applied to variables q0001, q0002, and q0003 whereby the maximum between the predicted ptend value and -state/1200 is chosen. The final ensemble had a public LB score of 0.79071.
