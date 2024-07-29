@@ -73,7 +73,7 @@ For 2 out of 3 of the models, an additional linear layer (not pictured in the di
 
 ### Low-Res-Aqua-Mixed
 
-When training the model, the raw .parquet files from uploaded Kaggle datasets are re-saved as files each with 1000 data points. The number of files used in a single batch can then easily be varied. Typically, our batch sizes were 4-5 files or 4000-5000 data points. We found that training using a Huber loss function with $\delta = 1$ noticeably improves the model's performance.\\
+When training the model, the raw .parquet files from uploaded Kaggle datasets are re-saved as files each with 1000 data points. The number of files used in a single batch can then easily be varied. Typically, our batch sizes were 4-5 files or 4000-5000 data points. We found that training using a Huber loss function with $\delta = 1$ noticeably improves the model's performance.
 
 A single model is trained on the mixed low-res and aqua-planet data to completion. Then, the same model is fine-tuned using slightly different procedures (varying SWA and checkpoint averaging parameters) to create distinct models that ensemble effectively. Training to completion takes approximately 24 hours on a single 4090 GPU.
 
@@ -81,9 +81,9 @@ For more details, refer to the .training/low-res-aqua-mixed folder.
 
 ### Low-Res-High-Res-Mixed
 
-For each step during training, a batch of low-res data and a batch of high-res data are evaluated using the model. The loss function for the step is a weighted combination of the loss on the low-res data and the high-res data. The loss functions used are a combination of MSE and MAE loss functions. About 72\% of the total loss weight is placed on the MAE of the low-res data, 6\% on the MSE of the low-res data, 22\% on the MAE of the high-res data, and $<1\%$ on the MSE of the high-res data. \\
+For each step during training, a batch of low-res data and a batch of high-res data are evaluated using the model. The loss function for the step is a weighted combination of the loss on the low-res data and the high-res data. The loss functions used are a combination of MSE and MAE loss functions. About 72\% of the total loss weight is placed on the MAE of the low-res data, 6\% on the MSE of the low-res data, 22\% on the MAE of the high-res data, and $<1\%$ on the MSE of the high-res data. 
 
-The best-performing models were equipped with EMA and trained with a batch size of about 7000 data points. Training takes about 12 hours when trained locally on a computer with 6 RTX 4090 GPUs. \\
+The best-performing models were equipped with EMA and trained with a batch size of about 7000 data points. Training takes about 12 hours when trained locally on a computer with 6 RTX 4090 GPUs.
 
 ## Inferencing 
 
