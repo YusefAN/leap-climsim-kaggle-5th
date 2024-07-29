@@ -46,6 +46,8 @@ Several models in our final ensemble followed this procedure without additional 
 
 The models trained on the combination of the [ClimSim_low-res](https://huggingface.co/datasets/LEAP/ClimSim_low-res) and the [ClimSim_low-res_aqua-planet](https://huggingface.co/datasets/LEAP/ClimSim_low-res_aqua-planet) datasets had the following architecture:
 
+![alt text](LowResHighResArchitecture.jpg)
+
 @TODO ekffar model
 
 @TODO ekffar features
