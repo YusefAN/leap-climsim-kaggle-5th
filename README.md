@@ -4,8 +4,9 @@ This repo contains the full solution used for the LEAP - Atmospheric Physics usi
 
 ## Table of Contents
 - [Introduction](#introduction)
+- [Preprocessing](#preprocessing)
 - [Models](#models)
-- [Data Processing and Training](#Data-Processing-and-Training)
+- [Training](#training)
 - [Inferencing](#inferencing)
 
 ## Introduction
@@ -88,7 +89,7 @@ The best-performing models were equipped with EMA and trained with a batch size 
 
 ### Low-Res-Aqua-Mixed 
 
-The lowres-aqua mixed models were trained and tuned to predict weighted raw outputs. Model files were uploaded to Kaggle and inference was made directly on the test.csv dataset. An example inference script can be found at [./inference/low-res-aqua-mixed](./inference/low-res-aqua-mixed).
+The low-res-aqua-mixed models were trained and tuned to predict weighted raw outputs. Model files were uploaded to Kaggle and inference was made directly on the test.csv dataset. An example inference script can be found at [./inference/low-res-aqua-mixed](./inference/low-res-aqua-mixed).
 
 ### Low-Res-High-Res-Mixed
 
