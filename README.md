@@ -7,7 +7,6 @@ This repo contains the full solution used for the LEAP - Atmospheric Physics usi
 - [Preprocessing](#preprocessing)
 - [Models](#models)
 - [Training](#training)
-- [Inferencing](#inferencing)
 
 ## Introduction
 This repository provides the code and resources for the 5th place solution for the LEAP - Atmospheric Physics using AI competition.
@@ -22,7 +21,7 @@ Our training strategy involved using as much data as possible. Some models were 
 
 The 556 element inputs were separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs were then repeated 60 times and concatenated to the columns to form a (60x25) input to our models. Engineered features, described in the individual model sections, are added as additional columns. All inputs and outputs, including engineered features, were standardized using their mean and standard deviation without any additional transformations.
 
-The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the script provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. The full low-res and aqua-planet datasets were used. The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. For more details, refer to the ./preprocessing folder.
+The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the script provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets. The full low-res and aqua-planet datasets were used. The preprocessing steps involve parsing the raw data from the LEAP data repositories, using the [script](https://github.com/leap-stc/ClimSim/blob/main/for_kaggle_users.py) provided in the main ClimSim repository, into parquet files corresponding to the folder name. The parquet files were uploaded as Kaggle datasets.
 
 ### Low-Res-High-Res-Mixed 
 
@@ -84,16 +83,6 @@ For more details, refer to the .training/low-res-aqua-mixed folder.
 For each step during training, a batch of low-res data and a batch of high-res data are evaluated using the model. The loss function for the step is a weighted combination of the loss on the low-res data and the high-res data. The loss functions used are a combination of MSE and MAE loss functions. About 72\% of the total loss weight is placed on the MAE of the low-res data, 6\% on the MSE of the low-res data, 22\% on the MAE of the high-res data, and $<1\%$ on the MSE of the high-res data. 
 
 The best-performing models were equipped with EMA and trained with a batch size of about 7000 data points. Training takes about 12 hours when trained locally on a computer with 6 RTX 4090 GPUs.
-
-## Inferencing 
-
-### Low-Res-Aqua-Mixed 
-
-The low-res-aqua-mixed models were trained and tuned to predict weighted raw outputs. Model files were uploaded to Kaggle and inference was made directly on the test.csv dataset. An example inference script can be found at [./inference/low-res-aqua-mixed](./inference/low-res-aqua-mixed).
-
-### Low-Res-High-Res-Mixed
-
-@TODO 
 
 ## Ensemble Inferencing
 
