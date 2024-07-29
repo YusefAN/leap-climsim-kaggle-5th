@@ -2,6 +2,8 @@
 
 This repo contains the full solution used for the LEAP - Atmospheric Physics using AI competition, where it achieved 5th place.
 
+The solution was created by a team consisting of [Yusef Al-Naher](https://github.com/YusefAN), [Marec Serlin](https://github.com/mserlin), [Um Hyobum](https://www.kaggle.com/ajobseeker) and [Lin Zhu](https://github.com/linzhu123455). 
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Preprocessing](#preprocessing)
