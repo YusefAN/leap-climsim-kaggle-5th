@@ -26,9 +26,9 @@ The preprocessing steps involve parsing the raw data from the LEAP data reposito
 
 ### Low-Res-High-Res-Mixed 
 
-As for the previous model, the 556 element inputs are separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs are repeated 60 times and concatenated to the columns to form a (60x25) input. These models did not use any engineered features. The inputs 'state-\_q0001', 'state\_q0002', 'state\_q0003', 'pbuf\_ozone', 'pbuf\_CH4', 'pbuf\_N2O' were log-transformed. Then, all the inputs (both transformed and not) were standardized using their mean and standard deviation. \\
+As for the previous model, the 556 element inputs are separated into column inputs (60x9 = 540) and global inputs (1x16). The global inputs are repeated 60 times and concatenated to the columns to form a (60x25) input. These models did not use any engineered features. The inputs 'state-\_q0001', 'state\_q0002', 'state\_q0003', 'pbuf\_ozone', 'pbuf\_CH4', 'pbuf\_N2O' were log-transformed. Then, all the inputs (both transformed and not) were standardized using their mean and standard deviation.
 
-The preprocessed normalized data is then saved into hickle files which are later used for training. The models are trained using all the low-res data and about 1/15th of the high-res data. \\
+The preprocessed normalized data is then saved into hickle files which are later used for training. The models are trained using all the low-res data and about 1/15th of the high-res data.
 
 ## Models
 
@@ -59,9 +59,9 @@ The 3 best-performing models trained on the combination of the [ClimSim_low-res]
 
 \begin{enumerate}
     \item Linear layer expanding the input dimension
-    \item Bidirectional LSTM (6 layer deep) with hidden dimension ranging from 256 to 320
-    \item The LSTM output is put into an 1D average pooling layer and a mean layer (along the dimension with length 60, which is the repeated 60 times)
-    \item The original input, the LSTM output, 1D average pooling output, and the mean are all concatenated
+    \item Bidirectional LSTM (6 layers deep) with hidden dimension ranging from 256 to 320
+    \item The LSTM output is put into a 1D average pooling layer and a mean layer (along the dimension with length 60, which is repeated 60 times)
+    \item The original input, the LSTM output, the 1D average pooling output, and the mean are all concatenated
     \item A series of linear layers then produce the final 368-element output sequence
 \end{enumerate}
 
