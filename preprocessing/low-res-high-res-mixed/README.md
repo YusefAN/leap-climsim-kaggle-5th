@@ -1,5 +1,1 @@
-# Preprocessing
-
-@TODO - how we got the data + how we processed
-
-
+"Preprocessing_Step1_Highres.py" and "Preprocessing_Step1_lowhres.py" reformat the data as parquet files, then "Preprocessing_Step2_1e-15.py" does additional manipulations, including saving individual hickle files, of the data already standardized.
